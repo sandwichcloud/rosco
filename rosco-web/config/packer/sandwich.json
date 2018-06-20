@@ -1,0 +1,52 @@
+{
+  "variables": {
+    "sandwich_api_server": null,
+    "sandwich_token": null,
+    "sandwich_project": null,
+    "sandwich_region": null,
+    "sandwich_source_image": null,
+    "sandwich_flavor": null,
+    "sandwich_network": null,
+    "sandwich_image_name": null,
+    "appversion": "",
+    "build_host": "",
+    "build_info_url": "",
+    "repository": "",
+    "package_type": "",
+    "packages": "",
+    "upgrade": "",
+    "configDir": null,
+    "manifestFile": null
+  },
+  "builders": [
+    {
+      "type": "sandwich",
+      "api_server": "{{user `sandwich_api_server`}}",
+      "token": "{{user `sandwich_token`}}",
+      "project_name": "{{user `sandwich_project`}}",
+      "region_name": "{{user `sandwich_region`}}",
+      "image_name": "{{user `sandwich_image_name`}}",
+      "ssh_username": "cloud-user",
+      "source_image_name": "{{user `sandwich_source_image`}}",
+      "network_name": "{{user `sandwich_network`}}",
+      "flavor_name": "{{user `sandwich_flavor`}}"
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "shell",
+      "script": "{{user `configDir`}}/install_packages.sh",
+      "environment_vars": [
+        "repository={{user `repository`}}",
+        "package_type={{user `package_type`}}",
+        "packages={{user `packages`}}",
+        "upgrade={{user `upgrade`}}"
+      ],
+      "pause_before": "30s"
+    }
+  ],
+  "post-processors": [{
+    "type": "manifest",
+    "output": "{{user `manifestFile`}}"
+  }]
+}

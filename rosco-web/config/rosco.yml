@@ -369,6 +369,32 @@ openstack:
         sourceImageId: b12f2467-cfca-4a65-b29b-d11b8c46818e
         sshUserName: ubuntu
 
+sandwich:
+  # The property referenced below, SANDWICH_ENABLED, is not set in the
+  # 'unified config' supported by the spinnaker/spinnaker project. If you
+  # copy/paste this section into a new rosco-local.yml file for use with a
+  # pre-built Spinnaker image, make sure to explicitly set the property's
+  # value to true.
+  enabled: ${SANDWICH_ENABLED:false}
+  bakeryDefaults:
+    apiServer: ${SANDWICH_URL:}
+    token: ${SANDWICH_TOKEN:}
+    project: ${SANDWICH_PROJECT:}
+    network: ${SANDWICH_NETWORK:}
+    templateFile: sandwich.json
+    baseImages:
+    # sourceImage is the unique name of a sandwich image, and can be found via the image api.
+    # It is immutable for the life of the image.
+    - baseImage:
+        id: centos
+        shortDescription: 7.4
+        detailedDescription: Centos 7.4
+        packageType: rpm
+      virtualizationSettings:
+      - region: lab1
+        flavor: my-flavor
+        sourceImage: centos-7-2018-04-01
+
 swagger:
   enabled: true
   title: Spinnaker Rosco API
